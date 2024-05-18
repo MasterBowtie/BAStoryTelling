@@ -1,0 +1,14 @@
+{
+  "name": "bastorytelling",
+  "version": "1.0.0",
+  "description": "A website to share stories and build a community.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Cody Apedaile",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
