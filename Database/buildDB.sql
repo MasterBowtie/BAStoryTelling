@@ -9,13 +9,36 @@ CREATE TABLE IF NOT EXISTS roles(
 
 CREATE TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    firstName VARCHAR(20) NOT NULL,
-    lastName VARCHAR(20) NOT NULL,
     userName VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL, 
     userPassword VARCHAR(20) NOT NULL,
     roleID INT NOT NULL,
     FOREIGN KEY (roleID) REFERENCES roles(id)
+);
+
+CREATE TABLE profiles(
+    profileID INT PRIMARY KEY NOT NULL,
+    FOREIGN KEY (profileID) REFERENCES users(id),
+    firstName VARCHAR(20) NOT NULL,
+    lastName VARCHAR(20) NOT NULL,
+    avatar VARCHAR(255)
+);
+
+CREATE TABLE interets(
+    interestID INT PRIMARY KEY NOT NULL,
+    FOREIGN KEY (interestID) REFERENCES users(id),
+    scifi TINYINT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE titles(
+    titleID INT PRIMARY KEY NOT NULL,
+    FOREIGN KEY (titleID) REFERENCES users(id),
+    writer TINYINT(1) NOT NULL DEFAULT 0,
+    artist TINYINT(1) NOT NULL DEFAULT 0,
+    editor TINYINT(1) NOT NULL DEFAULT 0,
+    publisher TINYINT(1) NOT NULL DEFAULT 0,
+    agent TINYINT(1) NOT NULL DEFAULT 0,
+    reader TINYINT(1) NOT NULL DEFAULT 1
 );
 
 CREATE TABLE prompts(
@@ -71,3 +94,15 @@ CREATE TABLE purchaseStory(
     FOREIGN KEY (storyID) REFERENCES stories(id),
     PRIMARY KEY (userID, storyID)
 );
+
+DELIMITER ;;
+
+CREATE TRIGGER userCreation
+AFTER INSERT ON users FOR EACH ROW 
+BEGIN 
+    INSERT INTO profiles (profileID) VALUES (new.id);
+    INSERT INTO titles (titleID) VALUES (new.id);
+    INSERT INTO interets(interestID) VALUES (new.id);
+END;;
+
+DELIMITER ;
