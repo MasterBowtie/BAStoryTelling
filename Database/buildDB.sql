@@ -1,0 +1,73 @@
+CREATE DATABASE IF NOT EXISTS BAStorytelling;
+
+USE BAStorytelling;
+
+CREATE TABLE IF NOT EXISTS roles(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    roleName VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE users(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    firstName VARCHAR(20) NOT NULL,
+    lastName VARCHAR(20) NOT NULL,
+    userName VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL, 
+    userPassword VARCHAR(20) NOT NULL,
+    roleID INT NOT NULL,
+    FOREIGN KEY (roleID) REFERENCES roles(id)
+);
+
+CREATE TABLE prompts(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    authorID INT NOT NULL,
+    FOREIGN KEY (authorID)  REFERENCES users(id),
+    createDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifyDate DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    content TEXT NOT NULL
+);
+
+CREATE TABLE stories(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    authorID INT NOT NULL,
+    FOREIGN KEY (authorID) REFERENCES users(id),
+    createDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifyDate DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    content TEXT NOT NULL
+);
+
+CREATE TABLE news(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    authorID INT NOT NULL,
+    FOREIGN KEY (authorID) REFERENCES users(id),
+    createDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifyDate DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    content TEXT NOT NULL
+);
+
+CREATE TABLE comments(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    authorID INT NOT NULL,
+        FOREIGN KEY (authorID) REFERENCES users(id),
+    content TEXT NOT NULL,
+    promptID INT,
+        FOREIGN KEY (promptID) REFERENCES prompts(id),
+    storyID INT,
+        FOREIGN KEY (storyID) REFERENCES stories(id),
+    commentID INT,
+        FOREIGN KEY (commentID) REFERENCES comments(id),
+    newsID INT,
+        FOREIGN KEY (newsID) REFERENCES news(id),
+    createDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifyDate DATETIME ON UPDATE CURRENT_TIMESTAMP  
+);
+
+CREATE TABLE purchaseStory(
+    userID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES users(id),
+    storyID INT NOT NULL,
+    FOREIGN KEY (storyID) REFERENCES stories(id),
+    PRIMARY KEY (userID, storyID)
+);
