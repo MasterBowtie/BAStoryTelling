@@ -11,23 +11,30 @@ CREATE TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     userName VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL, 
-    userPassword VARCHAR(20) NOT NULL,
-    roleID INT NOT NULL,
+    userPassword VARCHAR(255) NOT NULL,
+    passwordSalt VARCHAR(255) NOT NULL,
+    roleID INT NOT NULL DEFAULT 1,
     FOREIGN KEY (roleID) REFERENCES roles(id)
 );
 
 CREATE TABLE profiles(
     profileID INT PRIMARY KEY NOT NULL,
     FOREIGN KEY (profileID) REFERENCES users(id),
-    firstName VARCHAR(20) NOT NULL,
-    lastName VARCHAR(20) NOT NULL,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
     avatar VARCHAR(255)
 );
 
-CREATE TABLE interets(
+CREATE TABLE interests(
     interestID INT PRIMARY KEY NOT NULL,
     FOREIGN KEY (interestID) REFERENCES users(id),
-    scifi TINYINT(1) NOT NULL DEFAULT 0
+    scifi TINYINT(1) NOT NULL DEFAULT 0,
+    fantasy TINYINT(1) NOT NULL DEFAULT 0,
+    mystery TINYINT(1) NOT NULL DEFAULT 0,
+    dystopian TINYINT(1) NOT NULL DEFAULT 0,
+    historical_fiction TINYINT(1) NOT NULL DEFAULT 0,
+    satire TINYINT(1) NOT NULL DEFAULT 0,
+    non_fiction TINYINT(1) NOT NULL DEFAULT 0
 );
 
 CREATE TABLE titles(
@@ -47,6 +54,7 @@ CREATE TABLE prompts(
     FOREIGN KEY (authorID)  REFERENCES users(id),
     createDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modifyDate DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    publishDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     content TEXT NOT NULL
 );
 
@@ -102,7 +110,7 @@ AFTER INSERT ON users FOR EACH ROW
 BEGIN 
     INSERT INTO profiles (profileID) VALUES (new.id);
     INSERT INTO titles (titleID) VALUES (new.id);
-    INSERT INTO interets(interestID) VALUES (new.id);
+    INSERT INTO interests(interestID) VALUES (new.id);
 END;;
 
 DELIMITER ;
