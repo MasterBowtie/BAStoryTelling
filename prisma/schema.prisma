@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model roles {
+  id       Int    @id @default(autoincrement())
+  roleName String @db.VarChar(20)
+}
+
+model users {
+  id           Int    @id @default(autoincrement())
+  userName     String @unique(map: "userName") @db.VarChar(20)
+  email        String @unique(map: "email") @db.VarChar(100)
+  userPassword String @db.VarChar(255)
+  roleID       Int    @default(1)
+  passwordSalt String @db.VarChar(255)
+  
+  @@index([roleID], map: "roleID")
+}
+
+model profiles {
+  profileID Int     @id
+  firstName String? @db.VarChar(20)
+  lastName  String? @db.VarChar(20)
+  avatar    String? @db.VarChar(255)
+}
+
+model comments {
+  id         Int       @id @default(autoincrement())
+  authorID   Int
+  content    String    @db.Text
+  promptID   Int?
+  storyID    Int?
+  commentID  Int?
+  newsID     Int?
+  createDate DateTime  @default(now()) @db.DateTime(0)
+  modifyDate DateTime? @db.DateTime(0)
+
+  @@index([authorID], map: "authorID")
+  @@index([commentID], map: "commentID")
+  @@index([newsID], map: "newsID")
+  @@index([promptID], map: "promptID")
+  @@index([storyID], map: "storyID")
+}
+
+model interests {
+  interestID         Int     @id
+  scifi              Boolean @default(false)
+  fantasy            Boolean @default(false)
+  mystery            Boolean @default(false)
+  dystopian          Boolean @default(false)
+  historical_fiction Boolean @default(false)
+  satire             Boolean @default(false)
+  non_fiction        Boolean @default(false)
+}
+
+model news {
+  id         Int       @id @default(autoincrement())
+  title      String    @db.VarChar(255)
+  authorID   Int
+  createDate DateTime  @default(now()) @db.DateTime(0)
+  modifyDate DateTime? @db.DateTime(0)
+  content    String    @db.Text
+
+  @@index([authorID], map: "authorID")
+}
+
+model prompts {
+  id          Int       @id @default(autoincrement())
+  authorID    Int
+  createDate  DateTime  @default(now()) @db.DateTime(0)
+  modifyDate  DateTime? @db.DateTime(0)
+  content     String    @db.Text
+  publishDate DateTime  @default(now()) @db.DateTime(0)
+
+  @@index([authorID], map: "authorID")
+}
+
+model purchasestory {
+  userID  Int
+  storyID Int
+
+  @@id([userID, storyID])
+  @@index([storyID], map: "storyID")
+}
+
+model stories {
+  id         Int       @id @default(autoincrement())
+  title      String    @db.VarChar(255)
+  authorID   Int
+  createDate DateTime  @default(now()) @db.DateTime(0)
+  modifyDate DateTime? @db.DateTime(0)
+  content    String    @db.Text
+
+  @@index([authorID], map: "authorID")
+}
+
+model titles {
+  titleID   Int     @id
+  writer    Boolean @default(false)
+  artist    Boolean @default(false)
+  editor    Boolean @default(false)
+  publisher Boolean @default(false)
+  agent     Boolean @default(false)
+  reader    Boolean @default(true)
+}

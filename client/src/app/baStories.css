@@ -1,0 +1,17 @@
+#mainTitle {
+    font-size: 90px;
+    margin-left: 20%;
+    font-family: Georgia;
+}
+
+#navigationArea {
+    display: flex;
+    justify-content: center;
+}
+
+#navigationBar {
+    display: flex;
+    width: 1000px;
+    justify-content: space-evenly;
+    
+}

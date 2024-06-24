@@ -1,0 +1,63 @@
+form {
+  border-style: solid;
+  border-style: 2px;
+  border-color: black;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+fieldset {
+  border: none;
+}
+
+dd {
+  padding-right: 3px;
+}
+
+dd {
+  margin-bottom: 10px;
+}
+
+input {
+  border-style: solid;
+  border-style: 2px;
+  border-color: black;
+  border-radius: 3px;
+
+  min-height: 30px;
+  min-width: 30px;
+}
+
+input[type=text]{
+  width:100%;
+}
+
+input[type=password]{
+  width:100%;
+}
+
+input[type=email]{
+  width:100%;
+}
+
+legend {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+table {
+  border: 2px solid rgb(0, 0, 0);
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  /* border: 2px solid rgb(0, 0, 0); */
+  padding: 10px 10px;
+  text-align: center;
+}
+thead, tfoot {
+  background-color: aquamarine;
+}
+tbody > tr:nth-of-type(even) {
+  background-color: beige;
+}

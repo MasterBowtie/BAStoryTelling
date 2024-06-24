@@ -19,7 +19,8 @@ CREATE TABLE users(
 
 CREATE TABLE profiles(
     profileID INT PRIMARY KEY NOT NULL,
-    FOREIGN KEY (profileID) REFERENCES users(id),
+    FOREIGN KEY (profileID) REFERENCES users(id) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
     firstName VARCHAR(20),
     lastName VARCHAR(20),
     avatar VARCHAR(255)
@@ -27,7 +28,8 @@ CREATE TABLE profiles(
 
 CREATE TABLE interests(
     interestID INT PRIMARY KEY NOT NULL,
-    FOREIGN KEY (interestID) REFERENCES users(id),
+    FOREIGN KEY (interestID) REFERENCES users(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
     scifi TINYINT(1) NOT NULL DEFAULT 0,
     fantasy TINYINT(1) NOT NULL DEFAULT 0,
     mystery TINYINT(1) NOT NULL DEFAULT 0,
@@ -39,7 +41,8 @@ CREATE TABLE interests(
 
 CREATE TABLE titles(
     titleID INT PRIMARY KEY NOT NULL,
-    FOREIGN KEY (titleID) REFERENCES users(id),
+    FOREIGN KEY (titleID) REFERENCES users(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
     writer TINYINT(1) NOT NULL DEFAULT 0,
     artist TINYINT(1) NOT NULL DEFAULT 0,
     editor TINYINT(1) NOT NULL DEFAULT 0,
