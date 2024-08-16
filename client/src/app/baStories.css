@@ -1,3 +1,15 @@
+html {
+    height: 100vh;
+}
+
+body {
+    height: inherit;
+}
+
+#root {
+    height: inherit;
+}
+
 #mainTitle {
     font-size: 90px;
     margin-left: 20%;
@@ -14,4 +26,18 @@
     width: 1000px;
     justify-content: space-evenly;
     
+}
+
+.body {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    align-items: center;
+}
+
+.error {
+    color: red;
 }

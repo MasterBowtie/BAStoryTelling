@@ -7,49 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model roles {
+model Role {
   id       Int    @id @default(autoincrement())
   roleName String @db.VarChar(20)
+  User     User[]
 }
 
-model users {
-  id           Int    @id @default(autoincrement())
-  userName     String @unique(map: "userName") @db.VarChar(20)
-  email        String @unique(map: "email") @db.VarChar(100)
-  userPassword String @db.VarChar(255)
-  roleID       Int    @default(1)
-  passwordSalt String @db.VarChar(255)
-  
-  @@index([roleID], map: "roleID")
+model User {
+  id           Int        @id @default(autoincrement())
+  userName     String     @unique(map: "userName") @db.VarChar(20)
+  email        String     @unique(map: "email") @db.VarChar(100)
+  userPassword String     @db.VarChar(255)
+  role         Role       @relation(fields: [roleID], references: [id])
+  roleID       Int        @default(1)
+  passwordSalt String     @db.VarChar(255)
+  profile      Profile?
+  interests    Interest?
+  titles       Title?
+  Comment      Comment[]
+  News         News[]
+  Prompt       Prompt[]
+  Purchase     Purchase[]
+  Story        Story[]
 }
 
-model profiles {
-  profileID Int     @id
+model Profile {
+  id        Int     @id @default(autoincrement())
   firstName String? @db.VarChar(20)
   lastName  String? @db.VarChar(20)
   avatar    String? @db.VarChar(255)
+  user      User    @relation(fields: [userID], references: [id])
+  userID    Int     @unique
 }
 
-model comments {
+model Comment {
   id         Int       @id @default(autoincrement())
+  author     User      @relation(fields: [authorID], references: [id])
   authorID   Int
   content    String    @db.Text
+  prompt     Prompt?   @relation(fields: [promptID], references: [id])
   promptID   Int?
+  story      Story?    @relation(fields: [storyID], references: [id])
   storyID    Int?
+  comment    Comment?  @relation("Commenting", fields: [commentID], references: [id])
   commentID  Int?
+  comments   Comment[] @relation("Commenting")
+  news       News?     @relation(fields: [newsID], references: [id])
   newsID     Int?
   createDate DateTime  @default(now()) @db.DateTime(0)
   modifyDate DateTime? @db.DateTime(0)
-
-  @@index([authorID], map: "authorID")
-  @@index([commentID], map: "commentID")
-  @@index([newsID], map: "newsID")
-  @@index([promptID], map: "promptID")
-  @@index([storyID], map: "storyID")
 }
 
-model interests {
-  interestID         Int     @id
+model Interest {
+  id                 Int     @id @default(autoincrement())
+  user               User    @relation(fields: [userID], references: [id])
+  userID             Int     @unique
   scifi              Boolean @default(false)
   fantasy            Boolean @default(false)
   mystery            Boolean @default(false)
@@ -59,49 +71,52 @@ model interests {
   non_fiction        Boolean @default(false)
 }
 
-model news {
+model News {
   id         Int       @id @default(autoincrement())
   title      String    @db.VarChar(255)
+  author     User      @relation(fields: [authorID], references: [id])
   authorID   Int
   createDate DateTime  @default(now()) @db.DateTime(0)
   modifyDate DateTime? @db.DateTime(0)
   content    String    @db.Text
-
-  @@index([authorID], map: "authorID")
+  Comment    Comment[]
 }
 
-model prompts {
+model Prompt {
   id          Int       @id @default(autoincrement())
+  author      User      @relation(fields: [authorID], references: [id])
   authorID    Int
   createDate  DateTime  @default(now()) @db.DateTime(0)
   modifyDate  DateTime? @db.DateTime(0)
   content     String    @db.Text
   publishDate DateTime  @default(now()) @db.DateTime(0)
-
-  @@index([authorID], map: "authorID")
+  Comment     Comment[]
 }
 
-model purchasestory {
+model Purchase {
+  id      Int   @id @default(autoincrement())
+  user    User  @relation(fields: [userID], references: [id])
   userID  Int
+  story   Story @relation(fields: [storyID], references: [id])
   storyID Int
-
-  @@id([userID, storyID])
-  @@index([storyID], map: "storyID")
 }
 
-model stories {
-  id         Int       @id @default(autoincrement())
-  title      String    @db.VarChar(255)
+model Story {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(255)
+  author     User       @relation(fields: [authorID], references: [id])
   authorID   Int
-  createDate DateTime  @default(now()) @db.DateTime(0)
-  modifyDate DateTime? @db.DateTime(0)
-  content    String    @db.Text
-
-  @@index([authorID], map: "authorID")
+  createDate DateTime   @default(now()) @db.DateTime(0)
+  modifyDate DateTime?  @db.DateTime(0)
+  content    String     @db.Text
+  Comment    Comment[]
+  Purchase   Purchase[]
 }
 
-model titles {
-  titleID   Int     @id
+model Title {
+  id        Int     @id
+  user      User    @relation(fields: [userID], references: [id])
+  userID    Int     @unique
   writer    Boolean @default(false)
   artist    Boolean @default(false)
   editor    Boolean @default(false)

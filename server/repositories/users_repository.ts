@@ -7,6 +7,14 @@ export type CreateUserPayload = {
     password: string
 }
 
+export type UpdateUserPayload = {
+    email: string,
+    userName: string,
+    password: string,
+    roleID: number,
+    userID: number
+}
+
 export class UsersRepository {
     private db: PrismaClient
 
@@ -34,7 +42,7 @@ export class UsersRepository {
                 userPassword: e_password,
                 passwordSalt: u_salt
             }
-        })
+        });
     }
 
     async getUserById(id: number) {
@@ -46,6 +54,24 @@ export class UsersRepository {
                 id: true,
                 email: true,
                 userName: true
+            }
+        });
+    }
+
+    async updateUser({email, userName, password, roleID, userID}: UpdateUserPayload) {
+        var u_salt = bcrypt.genSaltSync();
+        var u_hash = bcrypt.hashSync(password, u_salt);
+
+        this.db.users.update({
+            where: {
+                id: userID
+            },
+            data: {
+                userName: userName,
+                email: email,
+                userPassword: u_hash,
+                passwordSalt: u_salt,
+                roleID: roleID
             }
         });
     }

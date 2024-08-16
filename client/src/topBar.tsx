@@ -15,7 +15,7 @@ export function TopBar() {
                 <Button asChild className={useLocation().pathname == "/Library"? "bg-active text-active-foreground hover:text-active_hover-foreground hover:bg-active_hover": ""}><Link to="/Library">Library</Link></Button>
                 <Button asChild className={useLocation().pathname == "/Prompts"? "bg-active text-active-foreground hover:text-active_hover-foreground hover:bg-active_hover": ""}><Link to="/Prompts">Prompts</Link></Button>
                 <Button asChild className={useLocation().pathname == "/News"? "bg-active text-active-foreground hover:text-active_hover-foreground hover:bg-active_hover": ""}><Link to="/News">News</Link></Button>
-                <Button asChild className={useLocation().pathname == "/Login"? "bg-active text-active-foreground hover:text-active_hover-foreground hover:bg-active_hover": ""}><Link to="/Login">Login</Link></Button>
+                <Button asChild className={useLocation().pathname == "/login"? "bg-active text-active-foreground hover:text-active_hover-foreground hover:bg-active_hover": ""}><Link to="/login">Login</Link></Button>
                 </div>
             </div>
         </>

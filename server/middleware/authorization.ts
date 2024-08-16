@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { Middleware, } from "./middleware";
 import { JwtPayload } from "../utils/jwt";
 import { UsersRepository } from "../repositories/users_repository";
+import { User } from "../types/domain/domain";
 
 export const authMiddleware: Middleware = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1]

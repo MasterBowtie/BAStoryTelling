@@ -1,6 +1,6 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { authMiddleware } from "../middleware/login";
+import { authMiddleware } from "../middleware/authorization";
 import { UsersRepository } from "../repositories/users_repository";
 import { publicMiddleware } from "../middleware/public";
 import { error } from "console";
@@ -19,6 +19,12 @@ export const buildUsersController = (usersRepository: UsersRepository) => {
     res.json({ user, token });
   });
 
+  router.get("/me", authMiddleware, async (req, res) => {
+
+  })
+
+
+  // This is just to test getting a user from the DB
   router.get("/:id", publicMiddleware, async (req, res) => {
     const { id } = req.params;
     const user = await usersRepository.getUserById(Number(id));
@@ -29,6 +35,11 @@ export const buildUsersController = (usersRepository: UsersRepository) => {
       res.status(404).json({ error: "User not found"});
     }
   });
+
+  router.post("/:id", async (req, res) => {
+    console.log(req.body);
+    // const user = await usersRepository.updateUser(req.body);
+  })
 
   return router;
 }

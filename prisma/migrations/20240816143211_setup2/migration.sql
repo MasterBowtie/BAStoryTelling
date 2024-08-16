@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `profiles` MODIFY `profileID` INTEGER NOT NULL AUTO_INCREMENT;

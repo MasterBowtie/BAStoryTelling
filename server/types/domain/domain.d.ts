@@ -2,7 +2,7 @@
 
 export interface User {
     email: string
-    username: string,
+    userName: string,
     id: int,
 }
 

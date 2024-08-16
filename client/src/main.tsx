@@ -7,6 +7,8 @@ import {Provider, useSelector} from 'react-redux';
 import { Home } from './home.tsx'
 import { Api, ApiContext} from './utils/api.js';
 import store from './store/store';
+import { Login } from './login.tsx'
+import { Update } from './update.tsx'
 
 const router = createHashRouter([
   {
@@ -16,6 +18,13 @@ const router = createHashRouter([
     {path: "",
       element: <Home />
     },
+    { path: "login",
+      element: <Login />
+    },
+    {
+      path:"update",
+      element: <Update />
+    }
   ]
   }
 ]);
