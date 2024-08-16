@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import App from './main/App.tsx'
 import './app/globals.css'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
 import {Provider, useSelector} from 'react-redux';
-import { Home } from './home.tsx'
+import { Home } from './main/home.tsx'
 import { Api, ApiContext} from './utils/api.js';
-import store from './store/store';
-import { Login } from './login.tsx'
-import { Update } from './update.tsx'
+import store from './store/store.js';
+import { Login } from './main/login.tsx'
+import { Update } from './main/update.tsx'
+import { Admin } from './admin/admin.tsx'
+import { A_Home } from './admin/a_home.tsx'
 
 const router = createHashRouter([
   {
@@ -24,8 +26,18 @@ const router = createHashRouter([
     {
       path:"update",
       element: <Update />
-    }
+    },
+    
   ]
+  },
+  {
+    path: "admin",
+    element: <Admin />,
+    children: [
+      {path: "",
+        element: <A_Home />
+      }
+    ]
   }
 ]);
 

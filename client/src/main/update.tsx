@@ -1,13 +1,13 @@
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "./components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import  { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Input } from "./components/ui/input";
-import { Button } from "./components/ui/button";
-import { Card } from "./components/ui/card";
-import { useApi } from "./utils/use_api.js";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { useApi } from "../utils/use_api.js";
 import { useEffect, useState } from "react";
-import { User } from "../../server/types/domain/domain.js";
+import { User } from "../../../server/types/domain/domain.js";
 
 const updateSchema = z.object({
     userID: z.number({

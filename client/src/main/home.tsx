@@ -1,6 +1,6 @@
-import { Button } from "./components/ui/button.js";
-import { useApi } from "./utils/use_api.js";
-import { User } from "../../server/types/domain/domain.js"
+import { Button } from "../components/ui/button.js";
+import { useApi } from "../utils/use_api.js";
+import { User } from "../../../server/types/domain/domain.js"
 import { useEffect, useState } from "react";
 
 

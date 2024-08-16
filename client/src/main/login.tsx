@@ -1,15 +1,15 @@
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "./components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import  { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Input } from "./components/ui/input";
-import { Button } from "./components/ui/button";
-import { Card } from "./components/ui/card";
-import { useApi } from "./utils/use_api.js";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { useApi } from "../utils/use_api.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setAuthToken } from "./store/application_slice.js";
+import { setAuthToken } from "../store/application_slice.js";
 
 const loginSchema = z.object({
     email: z.string({
