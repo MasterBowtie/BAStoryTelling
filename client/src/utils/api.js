@@ -29,6 +29,7 @@ export class Api {
             ...options,
         });
 
+        console.log(res);
         if (!res.ok) {
             const errorBody = await res.json();
             throw new Error(errorBody.message || `HTTP error! status ${res.status}`);

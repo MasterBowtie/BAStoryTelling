@@ -1,8 +1,8 @@
-import { users } from "@prisma/client";
+import { User as users } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import { Middleware, } from "./middleware";
 import { JwtPayload } from "../utils/jwt";
-import { UsersRepository } from "../repositories/users_repository";
+import { UserRepository } from "../repositories/user_repository";
 import { User } from "../types/domain/domain";
 
 export const authMiddleware: Middleware = async (req, res, next) => {
@@ -14,7 +14,7 @@ export const authMiddleware: Middleware = async (req, res, next) => {
   }
   try {
     const payload = jwt.verify(token, process.env.ENCRYPTION_KEY as string) as JwtPayload
-    const user = await UsersRepository.getInstance().getUserById(payload.userId);
+    const user = await UserRepository.getInstance().getUserById(payload.userId);
 
     if (!user) {
       throw Error("no user found")

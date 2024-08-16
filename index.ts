@@ -5,14 +5,14 @@ import * as fs from "fs";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
-import { buildUsersController } from "./server/controllers/users_controller";
-import { buildSessionsController } from "./server/controllers/sessions_controller";
+import { buildUserController } from "./server/controllers/user_controller";
+import { buildSessionController } from "./server/controllers/session_controller";
 import { buildHomeController } from "./server/controllers/home_controller";
-import { UsersRepository } from "./server/repositories/users_repository";
+import { UserRepository } from "./server/repositories/user_repository";
 
 
 const db = new PrismaClient();
-const usersRepository = UsersRepository.getInstance(db);
+const userRepository = UserRepository.getInstance(db);
 
 dotenv.config();
 
@@ -45,8 +45,8 @@ if (!DEBUG) {
 
 
 app.use("/", buildHomeController());
-app.use("/users", buildUsersController(usersRepository));
-app.use("/sessions", buildSessionsController(db));
+app.use("/user", buildUserController(userRepository));
+app.use("/session", buildSessionController(db));
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${process.env.PORT || 3000}...`);

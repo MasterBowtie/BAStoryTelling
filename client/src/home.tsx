@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 
 export function Home() {
     const [user, setUser] = useState<User | undefined> ();
-    const id = 3;
+    const id = 1;
     const api = useApi();
     async function getUser() {
-        const user_item = await api.get(`/users/${Number(id)}`);
+        console.log(id);
+        const user_item = await api.get(`/user/${Number(id)}`);
         console.log(user_item)
         setUser(user_item);
     }

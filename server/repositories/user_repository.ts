@@ -15,18 +15,18 @@ export type UpdateUserPayload = {
     userID: number
 }
 
-export class UsersRepository {
+export class UserRepository {
     private db: PrismaClient
 
-    private static instance: UsersRepository
+    private static instance: UserRepository
 
     constructor(db: PrismaClient) {
         this.db = db;
     }
 
-    static getInstance(db?: PrismaClient): UsersRepository {
+    static getInstance(db?: PrismaClient): UserRepository {
         if (!this.instance) {
-            this.instance = new UsersRepository(db!!);
+            this.instance = new UserRepository(db!!);
         }
         return this.instance;
     }
@@ -35,7 +35,7 @@ export class UsersRepository {
         var u_salt = bcrypt.genSaltSync();
         var e_password = bcrypt.hashSync(password, u_salt);
         
-        return this.db.users.create({
+        return this.db.user.create({
             data: {
                 email: email,
                 userName: userName,
@@ -46,7 +46,7 @@ export class UsersRepository {
     }
 
     async getUserById(id: number) {
-        return this.db.users.findUnique({
+        return this.db.user.findUnique({
             where: {
                 id: id
             },
@@ -62,7 +62,7 @@ export class UsersRepository {
         var u_salt = bcrypt.genSaltSync();
         var u_hash = bcrypt.hashSync(password, u_salt);
 
-        this.db.users.update({
+        this.db.user.update({
             where: {
                 id: userID
             },

@@ -33,10 +33,9 @@ export function Login() {
 
     async function onSubmit(values: z.infer<typeof loginSchema>) {
         try {
-            const { token } = await api.post("/sessions", values);
+            const { token } = await api.post("/session", values);
             dispatch(setAuthToken(token));
-            console.log("Submition!");
-            navigate('');
+            navigate('../');
         } catch (error) {
             setErrorMsg("Login failed: " + error);
         }
@@ -45,6 +44,7 @@ export function Login() {
     return (
         <div className="body">
             <Card className="p-10 w-[350px] ">
+
             <Form {...loginForm}>
                 <form onSubmit={loginForm.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
